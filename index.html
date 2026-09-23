@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="AI Nexus — plataforma interactiva de Inteligencia Artificial, Machine Learning y Ciencia de Datos.">
+<title>AI NEXUS | IA • Machine Learning • Data Science</title>
+<style>
+:root{
+  --bg:#0d1117; --panel:rgba(17,24,39,.78); --panel2:rgba(10,18,28,.88);
+  --cyan:#00e5ff; --green:#39ff88; --blue:#4f8cff; --purple:#a66cff;
+  --text:#e6edf3; --muted:#8b9bb0; --line:rgba(0,229,255,.20);
+  --danger:#ff5577; --warning:#ffd166; --shadow:0 0 30px rgba(0,229,255,.10);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,Segoe UI,Arial,sans-serif;line-height:1.6;overflow-x:hidden}
+body:before{content:"";position:fixed;inset:0;pointer-events:none;z-index:-2;background:
+radial-gradient(circle at 20% 10%,rgba(0,229,255,.08),transparent 28%),
+radial-gradient(circle at 80% 30%,rgba(79,140,255,.08),transparent 25%),
+linear-gradient(rgba(255,255,255,.018) 1px,transparent 1px),
+linear-gradient(90deg,rgba(255,255,255,.018) 1px,transparent 1px);
+background-size:auto,auto,40px 40px,40px 40px}
+#matrix{position:fixed;inset:0;z-index:-1;opacity:.42;pointer-events:none}
+a{color:inherit;text-decoration:none}
+button,input,select{font:inherit}
+.container{width:min(1180px,92%);margin:auto}
+.mono{font-family:"SFMono-Regular",Consolas,monospace}
+nav{position:fixed;top:0;left:0;right:0;height:70px;z-index:20;background:rgba(7,12,18,.78);backdrop-filter:blur(16px);border-bottom:1px solid var(--line)}
+.nav-inner{height:100%;display:flex;align-items:center;justify-content:space-between;gap:18px}
+.logo{font-weight:900;letter-spacing:2px;color:var(--cyan);text-shadow:0 0 14px rgba(0,229,255,.55)}
+.logo span{color:var(--green)}
+.nav-links{display:flex;gap:5px;align-items:center}
+.nav-links a{font-size:.82rem;color:#aebdca;padding:8px 9px;border-radius:8px}
+.nav-links a:hover{color:var(--cyan);background:rgba(0,229,255,.07)}
+.menu-btn{display:none;background:none;border:1px solid var(--line);color:var(--cyan);padding:7px 10px;border-radius:8px}
+section{padding:95px 0 55px;position:relative}
+.hero{min-height:100vh;display:grid;place-items:center;padding-top:100px}
+.hero-grid{display:grid;grid-template-columns:1.2fr .8fr;gap:40px;align-items:center}
+.eyebrow{font:700 .78rem "SFMono-Regular",Consolas,monospace;color:var(--green);letter-spacing:3px}
+h1{font-size:clamp(3rem,8vw,6.8rem);line-height:.9;margin:16px 0 22px;letter-spacing:-5px}
+.gradient{background:linear-gradient(90deg,var(--cyan),var(--blue),var(--green));-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero p{max-width:720px;color:#b4c2cf;font-size:1.12rem}
+.actions{display:flex;gap:12px;flex-wrap:wrap;margin:28px 0}
+.btn{cursor:pointer;border:1px solid var(--cyan);background:rgba(0,229,255,.09);color:var(--cyan);padding:11px 17px;border-radius:8px;font-weight:700;transition:.2s}
+.btn:hover{transform:translateY(-2px);box-shadow:0 0 24px rgba(0,229,255,.2)}
+.btn.primary{background:var(--cyan);color:#041018}
+.btn.green{border-color:var(--green);color:var(--green)}
+.hero-panel,.card,.terminal,.dash-card{background:linear-gradient(145deg,rgba(20,31,43,.82),rgba(8,14,22,.82));border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow);backdrop-filter:blur(12px)}
+.hero-panel{padding:22px}
+.scan{height:8px;background:#101923;border-radius:20px;overflow:hidden;margin:15px 0}
+.scan span{display:block;height:100%;width:72%;background:linear-gradient(90deg,var(--cyan),var(--green));box-shadow:0 0 18px var(--cyan)}
+.status{display:flex;justify-content:space-between;gap:15px;font:12px monospace;color:var(--muted)}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:28px}
+.stat{padding:16px;border:1px solid rgba(57,255,136,.14);border-radius:12px;background:rgba(57,255,136,.035)}
+.stat strong{display:block;font-size:1.55rem;color:var(--green)}
+.section-head{display:flex;justify-content:space-between;align-items:end;gap:20px;margin-bottom:28px}
+.section-head h2{margin:0;font-size:clamp(1.8rem,4vw,3rem)}
+.section-head p{margin:0;color:var(--muted);max-width:650px}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.card{padding:20px;transition:.25s;position:relative;overflow:hidden}
+.card:hover{transform:translateY(-5px);border-color:rgba(0,229,255,.55);box-shadow:0 0 35px rgba(0,229,255,.1)}
+.icon{font-size:1.8rem;margin-bottom:10px}
+.card h3{margin:4px 0 8px;color:#f2f7fb}
+.card p{margin:0;color:var(--muted);font-size:.92rem}
+.tag{display:inline-block;margin-top:14px;padding:4px 8px;border:1px solid rgba(0,229,255,.25);border-radius:99px;color:var(--cyan);font:11px monospace}
+.pipeline{display:grid;grid-template-columns:repeat(7,1fr);gap:8px;align-items:stretch}
+.pipe{padding:14px 7px;text-align:center;border:1px solid var(--line);border-radius:10px;background:rgba(0,229,255,.04);font-size:.8rem}
+.pipe b{display:block;color:var(--cyan);font-size:1.1rem}
+.lab{display:grid;grid-template-columns:320px 1fr;gap:18px}
+.controls{padding:20px}
+.control{margin-bottom:18px}
+.control label{display:flex;justify-content:space-between;color:#b8c5d0;font-size:.88rem;margin-bottom:7px}
+input[type=range]{width:100%;accent-color:var(--cyan)}
+select,input[type=number]{width:100%;padding:9px;background:#09121b;color:var(--text);border:1px solid var(--line);border-radius:7px}
+.visual{min-height:360px;padding:20px;position:relative}
+canvas.graph{width:100%;height:310px;display:block;border:1px solid rgba(0,229,255,.12);border-radius:10px;background:rgba(0,0,0,.18)}
+.result{margin-top:12px;padding:12px;border-radius:9px;background:rgba(57,255,136,.05);border:1px solid rgba(57,255,136,.15);font:13px monospace;color:var(--green)}
+.neural-wrap{display:grid;grid-template-columns:260px 1fr;gap:18px}
+#network{width:100%;height:400px;display:block;border:1px solid var(--line);border-radius:12px;background:#071018}
+.kpis{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:18px}
+.kpi{padding:16px;border:1px solid var(--line);border-radius:10px;background:rgba(0,229,255,.035)}
+.kpi small{display:block;color:var(--muted)}
+.kpi strong{font-size:1.6rem;color:var(--cyan)}
+.charts{display:grid;grid-template-columns:1.3fr 1fr;gap:16px}
+.chart-box{padding:18px}
+.chart-box canvas{width:100%;height:250px;display:block}
+.security{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;align-items:center}
+.node{padding:20px 10px;text-align:center;border:1px solid var(--line);border-radius:12px;background:rgba(0,229,255,.045)}
+.node b{display:block;color:var(--cyan)}
+.arrow{text-align:center;color:var(--green);font-size:1.5rem}
+.terminal{overflow:hidden}
+.term-head{padding:10px 14px;background:#0a151f;border-bottom:1px solid var(--line);display:flex;gap:7px}
+.dot{width:10px;height:10px;border-radius:50%;background:#58697a}
+.term-body{padding:18px;font:13px/1.7 monospace;min-height:250px}
+.term-line{color:var(--green)}
+.term-input{display:flex;gap:8px}
+.term-input span{color:var(--cyan)}
+#command{flex:1;background:transparent;border:0;outline:0;color:#fff}
+footer{padding:45px 0;border-top:1px solid var(--line);color:var(--muted)}
+.footer-grid{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
+.reveal{opacity:0;transform:translateY(18px);transition:.65s}
+.reveal.show{opacity:1;transform:none}
+.notice{padding:13px 15px;border-left:3px solid var(--warning);background:rgba(255,209,102,.05);color:#bdc7d0;border-radius:5px;margin-top:16px}
+@media(max-width:950px){
+ .nav-links{display:none;position:absolute;top:70px;left:0;right:0;background:#081019;padding:12px;flex-direction:column;align-items:stretch;border-bottom:1px solid var(--line)}
+ .nav-links.open{display:flex}.menu-btn{display:block}
+ .hero-grid,.lab,.neural-wrap,.charts{grid-template-columns:1fr}
+ .grid{grid-template-columns:repeat(2,1fr)}
+ .stats,.kpis{grid-template-columns:repeat(2,1fr)}
+ .pipeline{grid-template-columns:repeat(4,1fr)}
+ .security{grid-template-columns:1fr 40px 1fr 40px 1fr}
+}
+@media(max-width:600px){
+ section{padding:78px 0 35px} h1{letter-spacing:-2px}
+ .grid{grid-template-columns:1fr}.stats,.kpis{grid-template-columns:1fr 1fr}
+ .pipeline{grid-template-columns:repeat(2,1fr)}
+ .security{grid-template-columns:1fr}
+ .arrow{transform:rotate(90deg)}
+ .hero{min-height:auto;padding-top:120px}
+}
+</style>
+</head>
+<body>
+<canvas id="matrix"></canvas>
+
+<nav>
+  <div class="container nav-inner">
+    <a class="logo mono" href="#inicio">AI<span>NEXUS</span></a>
+    <button class="menu-btn" id="menuBtn">☰</button>
+    <div class="nav-links" id="navLinks">
+      <a href="#ia">IA</a><a href="#ml">Machine Learning</a><a href="#data">Data Science</a>
+      <a href="#neural">Redes</a><a href="#playground">Playground</a><a href="#dashboard">Dashboard</a>
+      <a href="#security">Ciberseguridad</a><a href="#terminal">Terminal</a>
+    </div>
+  </div>
+</nav>
+
+<main>
+<section class="hero" id="inicio">
+ <div class="container">
+  <div class="hero-grid">
+   <div>
+    <div class="eyebrow">SYSTEM ONLINE // EDUCATIONAL PLATFORM</div>
+    <h1><span class="gradient">INTELIGENCIA</span><br>ARTIFICIAL</h1>
+    <p>Explora Inteligencia Artificial, Machine Learning y Ciencia de Datos mediante conceptos visuales, simulaciones y laboratorios interactivos.</p>
+    <div class="actions">
+      <a class="btn primary" href="#ia">Explorar IA</a>
+      <a class="btn green" href="#playground">Iniciar Playground</a>
+    </div>
+   </div>
+   <div class="hero-panel">
+     <div class="status"><span>AI CORE</span><span id="coreStatus">● ONLINE</span></div>
+     <div class="scan"><span></span></div>
+     <div class="status"><span>PROCESSING</span><span id="process">72%</span></div>
+     <div class="stats">
+      <div class="stat"><small>MODELOS</small><strong id="sModels">128</strong></div>
+      <div class="stat"><small>DATOS</small><strong id="sData">4.8M</strong></div>
+      <div class="stat"><small>PREDICCIONES</small><strong id="sPred">32.6K</strong></div>
+      <div class="stat"><small>ALERTAS</small><strong id="sAlerts">17</strong></div>
+     </div>
+   </div>
+  </div>
+ </div>
+</section>
+
+<section id="ia">
+ <div class="container reveal">
+  <div class="section-head"><div><div class="eyebrow">01 // INTELLIGENCE</div><h2>Inteligencia Artificial</h2></div><p>Conceptos fundamentales organizados como módulos explorables.</p></div>
+  <div class="grid">
+   <article class="card"><div class="icon">🧠</div><h3>¿Qué es la IA?</h3><p>Sistemas capaces de realizar tareas asociadas con percepción, razonamiento, aprendizaje y toma de decisiones.</p><span class="tag">CONCEPTO</span></article>
+   <article class="card"><div class="icon">🕰️</div><h3>Historia y evolución</h3><p>De los primeros sistemas simbólicos al aprendizaje profundo y los modelos generativos.</p><span class="tag">EVOLUCIÓN</span></article>
+   <article class="card"><div class="icon">✨</div><h3>IA generativa</h3><p>Modelos que producen texto, imágenes, código, audio y otros tipos de contenido.</p><span class="tag">GENERATIVE AI</span></article>
+   <article class="card"><div class="icon">🧬</div><h3>Redes neuronales</h3><p>Arquitecturas inspiradas en conexiones neuronales para aprender representaciones a partir de datos.</p><span class="tag">DEEP LEARNING</span></article>
+   <article class="card"><div class="icon">💬</div><h3>Lenguaje natural</h3><p>Procesamiento y generación de lenguaje humano mediante modelos computacionales.</p><span class="tag">NLP</span></article>
+   <article class="card"><div class="icon">👁️</div><h3>Visión por computadora</h3><p>Análisis de imágenes y vídeo para extraer información y reconocer patrones.</p><span class="tag">COMPUTER VISION</span></article>
+  </div>
+ </div>
+</section>
+
+<section id="ml">
+ <div class="container reveal">
+  <div class="section-head"><div><div class="eyebrow">02 // LEARNING</div><h2>Machine Learning</h2></div><p>Modifica parámetros y observa una simulación de clasificación o predicción.</p></div>
+  <div class="lab">
+   <div class="card controls">
+    <div class="control"><label>Tipo de modelo</label><select id="mlType"><option>Clasificación</option><option>Regresión</option><option>Clustering</option></select></div>
+    <div class="control"><label>Ruido <b id="noiseVal">20%</b></label><input id="noise" type="range" min="0" max="60" value="20"></div>
+    <div class="control"><label>Complejidad <b id="complexVal">5</b></label><input id="complex" type="range" min="1" max="10" value="5"></div>
+    <button class="btn primary" id="runML">▶ Ejecutar modelo</button>
+    <div class="result" id="mlResult">Modelo listo. Ajusta parámetros.</div>
+   </div>
+   <div class="card visual"><canvas class="graph" id="mlCanvas"></canvas></div>
+  </div>
+  <div class="notice">La simulación es local y educativa; no representa el entrenamiento de un modelo real.</div>
+ </div>
+</section>
+
+<section id="data">
+ <div class="container reveal">
+  <div class="section-head"><div><div class="eyebrow">03 // PIPELINE</div><h2>Ciencia de Datos</h2></div><p>Del dato bruto a la decisión mediante un flujo reproducible.</p></div>
+  <div class="pipeline">
+   <div class="pipe">01<b>⬇</b>Datos</div><div class="pipe">02<b>✦</b>Limpieza</div><div class="pipe">03<b>⌕</b>Exploración</div><div class="pipe">04<b>∑</b>Análisis</div><div class="pipe">05<b>⚙</b>Modelo</div><div class="pipe">06<b>▥</b>Visualización</div><div class="pipe">07<b>✓</b>Decisión</div>
+  </div>
+ </div>
+</section>
+
+<section id="neural">
+ <div class="container reveal">
+  <div class="section-head"><div><div class="eyebrow">04 // NEURAL COMPUTING</div><h2>Red Neuronal Interactiva</h2></div><p>Cambia capas y neuronas para visualizar una propagación de señal simulada.</p></div>
+  <div class="neural-wrap">
+   <div class="card controls">
+    <div class="control"><label>Capas ocultas <b id="layersVal">2</b></label><input id="layers" type="range" min="1" max="4" value="2"></div>
+    <div class="control"><label>Neuronas por capa <b id="neuronsVal">5</b></label><input id="neurons" type="range" min="2" max="9" value="5"></div>
+    <button class="btn primary" id="activateNet">⚡ Activar señal</button>
+    <div class="result" id="netResult">Red configurada.</div>
+   </div>
+   <div class="card"><canvas id="network"></canvas></div>
+  </div>
+ </div>
+</section>
+
+<section id="playground">
+ <div class="container reveal">
+  <div class="section-head"><div><div class="eyebrow">05 // EXPERIMENT LAB</div><h2>AI Playground</h2></div><p>Un laboratorio para experimentar con simulaciones de clasificación, predicción, clustering y datos.</p></div>
+  <div class="grid">
+   <article class="card"><div class="icon">🔬</div><h3>Clasificación</h3><p>Genera observaciones y separa clases con un umbral configurable.</p><button class="btn" onclick="playground('classification')">Ejecutar</button></article>
+   <article class="card"><div class="icon">📈</div><h3>Predicción</h3><p>Construye una predicción simulada a partir de una serie de valores.</p><button class="btn" onclick="playground('prediction')">Ejecutar</button></article>
+   <article class="card"><div class="icon">🟣</div><h3>Clustering</h3><p>Genera grupos de puntos y observa una segmentación simulada.</p><button class="btn" onclick="playground('clustering')">Ejecutar</button></article>
+  </div>
+  <div class="card" style="margin-top:16px"><canvas class="graph" id="playCanvas"></canvas><div class="result" id="playResult">Selecciona un experimento.</div></div>
+ </div>
+</section>
+
+<section id="dashboard">
+ <div class="container reveal">
+  <div class="section-head"><div><div class="eyebrow">06 // DATA MONITOR</div><h2>Dashboard de Data Science</h2></div><p>Indicadores y gráficos actualizados dinámicamente con datos simulados.</p></div>
+  <div class="kpis">
+   <div class="kpi"><small>DATASETS</small><strong id="k1">42</strong></div><div class="kpi"><small>MODELOS</small><strong id="k2">18</strong></div>
+   <div class="kpi"><small>PREDICCIONES</small><strong id="k3">9,420</strong></div><div class="kpi"><small>PRECISIÓN</small><strong id="k4">94.8%</strong></div><div class="kpi"><small>DATOS PROCESADOS</small><strong id="k5">2.7 TB</strong></div>
+  </div>
+  <div class="charts">
+   <div class="card chart-box"><h3>Rendimiento temporal</h3><canvas id="lineChart"></canvas></div>
+   <div class="card chart-box"><h3>Distribución</h3><canvas id="barChart"></canvas></div>
+  </div>
+ </div>
+</section>
+
+<section id="security">
+ <div class="container reveal">
+  <div class="section-head"><div><div class="eyebrow">07 // SECURITY AI</div><h2>IA + Ciberseguridad</h2></div><p>Flujo conceptual de análisis de tráfico, detección de patrones y alertas.</p></div>
+  <div class="security">
+   <div class="node">🌐<b>TRÁFICO</b><small>1,284 eventos</small></div><div class="arrow">→</div>
+   <div class="node">🧠<b>ANÁLISIS IA</b><small id="secAnalysis">Analizando...</small></div><div class="arrow">→</div>
+   <div class="node">🚨<b>DETECCIÓN</b><small id="secAlert">17 alertas</small></div>
+  </div>
+  <div class="grid" style="margin-top:16px">
+   <article class="card"><h3>Detección de anomalías</h3><p>Identificación de comportamientos que se apartan del patrón esperado.</p></article>
+   <article class="card"><h3>Detección de intrusiones</h3><p>Análisis de señales y eventos para generar alertas simuladas.</p></article>
+   <article class="card"><h3>Patrones sospechosos</h3><p>Clasificación conceptual de eventos según características observadas.</p></article>
+  </div>
+ </div>
+</section>
+
+<section id="applications">
+ <div class="container reveal">
+  <div class="section-head"><div><div class="eyebrow">08 // REAL WORLD</div><h2>Aplicaciones de la IA</h2></div><p>Ejemplos de aplicación en distintos sectores.</p></div>
+  <div class="grid">
+   <article class="card"><h3>🏥 Medicina</h3><p>Apoyo al análisis de imágenes y datos clínicos.</p></article>
+   <article class="card"><h3>🎓 Educación</h3><p>Personalización de contenidos y análisis del aprendizaje.</p></article>
+   <article class="card"><h3>💳 Finanzas</h3><p>Detección de patrones, riesgo y fraude.</p></article>
+   <article class="card"><h3>🌾 Agricultura</h3><p>Monitoreo, predicción y optimización de recursos.</p></article>
+   <article class="card"><h3>🚗 Transporte</h3><p>Optimización de rutas y sistemas inteligentes.</p></article>
+   <article class="card"><h3>🤖 Robótica</h3><p>Percepción, planificación y control autónomo.</p></article>
+  </div>
+ </div>
+</section>
+
+<section id="tools">
+ <div class="container reveal">
+  <div class="section-head"><div><div class="eyebrow">09 // STACK</div><h2>Tecnologías y herramientas</h2></div><p>Un mapa visual de tecnologías relacionadas con el ecosistema de datos e IA.</p></div>
+  <div class="grid">
+   <article class="card"><h3>Python</h3><p>Lenguaje ampliamente utilizado para análisis, automatización y aprendizaje automático.</p></article>
+   <article class="card"><h3>TensorFlow / PyTorch</h3><p>Frameworks de aprendizaje automático y redes neuronales.</p></article>
+   <article class="card"><h3>Pandas / NumPy</h3><p>Herramientas para manipulación y computación numérica de datos.</p></article>
+   <article class="card"><h3>Scikit-learn</h3><p>Biblioteca para algoritmos clásicos de machine learning.</p></article>
+   <article class="card"><h3>Jupyter / SQL</h3><p>Entornos y lenguajes habituales para exploración y consulta de datos.</p></article>
+   <article class="card"><h3>Docker / Cloud / APIs</h3><p>Componentes del ecosistema de despliegue e integración.</p></article>
+  </div>
+ </div>
+</section>
+
+<section id="ethics">
+ <div class="container reveal">
+  <div class="section-head"><div><div class="eyebrow">10 // RESPONSIBLE AI</div><h2>Ética y futuro de la IA</h2></div><p>Temas para comprender el uso responsable de sistemas de inteligencia artificial.</p></div>
+  <div class="grid">
+   <article class="card"><h3>Privacidad</h3><p>Uso responsable y protección de datos.</p></article>
+   <article class="card"><h3>Sesgos algorítmicos</h3><p>Comprender cómo los datos y modelos pueden producir resultados desiguales.</p></article>
+   <article class="card"><h3>Transparencia</h3><p>Comprensibilidad y trazabilidad de los sistemas.</p></article>
+   <article class="card"><h3>Seguridad</h3><p>Diseño y uso seguro de sistemas de IA.</p></article>
+   <article class="card"><h3>Impacto laboral</h3><p>Explorar cambios potenciales en tareas, profesiones y organización del trabajo.</p></article>
+   <article class="card"><h3>Futuro</h3><p>Examinar tendencias, oportunidades y desafíos de la IA.</p></article>
+  </div>
+ </div>
+</section>
+
+<section id="terminal">
+ <div class="container reveal">
+  <div class="section-head"><div><div class="eyebrow">11 // SYSTEM CLI</div><h2>Terminal interactiva</h2></div><p>Terminal simulada para explorar comandos educativos. No ejecuta comandos del sistema operativo.</p></div>
+  <div class="terminal">
+   <div class="term-head"><i class="dot"></i><i class="dot"></i><i class="dot"></i><span class="mono" style="margin-left:auto;color:#6f8292">ai-nexus://terminal</span></div>
+   <div class="term-body" id="termOutput">
+    <div>AI NEXUS CLI v1.0</div><div>Escribe <span class="term-line">help</span> para ver comandos disponibles.</div><br>
+    <div class="term-input"><span>guest@ai-nexus:~$</span><input id="command" autocomplete="off" placeholder="help"></div>
+   </div>
+  </div>
+ </div>
+</section>
+</main>
+
+<footer>
+ <div class="container footer-grid">
+  <div><strong class="logo mono">AI<span>NEXUS</span></strong><br><small>Plataforma educativa experimental • 2026</small></div>
+  <div><small>HTML5 • CSS3 • JavaScript • Canvas • SVG</small><br><small>Uso educativo. Datos y simulaciones generados localmente.</small></div>
+ </div>
+</footer>
+
+<script>
+/* =========================================================
+   AI NEXUS — prototipo funcional
+   Todo funciona localmente: no requiere backend ni API.
+   ========================================================= */
+
+const $ = s => document.querySelector(s);
+
+/* Navegación móvil */
+$('#menuBtn').onclick=()=>$('#navLinks').classList.toggle('open');
+document.querySelectorAll('#navLinks a').forEach(a=>a.onclick=()=>$('#navLinks').classList.remove('open'));
+
+/* Fondo Canvas: partículas y conexiones */
+const bg=$('#matrix'), bctx=bg.getContext('2d');
+let particles=[], mouse={x:-9999,y:-9999};
+function resizeBg(){
+  bg.width=innerWidth*devicePixelRatio; bg.height=innerHeight*devicePixelRatio;
+  bg.style.width=innerWidth+'px'; bg.style.height=innerHeight+'px'; bctx.setTransform(devicePixelRatio,0,0,devicePixelRatio,0,0);
+  particles=Array.from({length:Math.min(80,Math.floor(innerWidth/18))},()=>({x:Math.random()*innerWidth,y:Math.random()*innerHeight,vx:(Math.random()-.5)*.35,vy:(Math.random()-.5)*.35}));
+}
+addEventListener('resize',resizeBg); addEventListener('mousemove',e=>{mouse.x=e.clientX;mouse.y=e.clientY}); resizeBg();
+function bgLoop(){
+  bctx.clearRect(0,0,innerWidth,innerHeight);
+  particles.forEach((p,i)=>{
+    p.x+=p.vx;p.y+=p.vy;if(p.x<0||p.x>innerWidth)p.vx*=-1;if(p.y<0||p.y>innerHeight)p.vy*=-1;
+    const d=Math.hypot(p.x-mouse.x,p.y-mouse.y); if(d<130){p.x+=(p.x-mouse.x)*.002;p.y+=(p.y-mouse.y)*.002}
+    bctx.fillStyle='rgba(0,229,255,.55)';bctx.beginPath();bctx.arc(p.x,p.y,1.4,0,Math.PI*2);bctx.fill();
+    for(let j=i+1;j<particles.length;j++){const q=particles[j],dist=Math.hypot(p.x-q.x,p.y-q.y);if(dist<115){bctx.strokeStyle=`rgba(0,229,255,${(1-dist/115)*.14})`;bctx.beginPath();bctx.moveTo(p.x,p.y);bctx.lineTo(q.x,q.y);bctx.stroke()}}
+  });requestAnimationFrame(bgLoop);
+} bgLoop();
+
+/* Reveal al hacer scroll */
+const observer=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('show')}),{threshold:.08});
+document.querySelectorAll('.reveal').forEach(e=>observer.observe(e));
+
+/* Indicadores dinámicos */
+setInterval(()=>{
+  const process=Math.floor(65+Math.random()*31);
+  $('#process').textContent=process+'%';
+  $('#sPred').textContent=(32.6+Math.random()*1.2).toFixed(1)+'K';
+  $('#sAlerts').textContent=Math.floor(12+Math.random()*12);
+  $('#sData').textContent=(4.7+Math.random()*.5).toFixed(1)+'M';
+},1800);
+
+/* Machine Learning */
+const mlCanvas=$('#mlCanvas'), mlctx=mlCanvas.getContext('2d');
+function fitCanvas(c){
+ const r=c.getBoundingClientRect(),d=devicePixelRatio;c.width=r.width*d;c.height=r.height*d;c.getContext('2d').setTransform(d,0,0,d,0,0);return [r.width,r.height];
+}
+function drawML(){
+ const [w,h]=fitCanvas(mlCanvas),noise=+$('#noise').value,complex=+$('#complex').value,type=$('#mlType').value;
+ $('#noiseVal').textContent=noise+'%';$('#complexVal').textContent=complex;
+ mlctx.clearRect(0,0,w,h); mlctx.fillStyle='rgba(255,255,255,.03)';mlctx.fillRect(0,0,w,h);
+ mlctx.strokeStyle='rgba(0,229,255,.08)';
+ for(let x=20;x<w;x+=40){mlctx.beginPath();mlctx.moveTo(x,0);mlctx.lineTo(x,h);mlctx.stroke()}
+ for(let y=20;y<h;y+=40){mlctx.beginPath();mlctx.moveTo(0,y);mlctx.lineTo(w,y);mlctx.stroke()}
+ if(type==='Clustering'){
+   const centers=[[w*.3,h*.35],[w*.7,h*.38],[w*.52,h*.72]];
+   for(let i=0;i<75;i++){let c=centers[i%3],x=c[0]+(Math.random()-.5)*(60+complex*3),y=c[1]+(Math.random()-.5)*(60+complex*3);mlctx.fillStyle=i%3===0?'#00e5ff':i%3===1?'#39ff88':'#a66cff';mlctx.beginPath();mlctx.arc(x,y,4,0,Math.PI*2);mlctx.fill()}
+ }else{
+   for(let i=0;i<90;i++){let x=25+Math.random()*(w-50),base=type==='Regresión'?h*.78-x/w*h*.55:h*.5;let y=base+(Math.random()-.5)*(noise*3+15);mlctx.fillStyle=i%2?'#00e5ff':'#39ff88';mlctx.beginPath();mlctx.arc(x,y,3.2,0,Math.PI*2);mlctx.fill()}
+   mlctx.strokeStyle='#4f8cff';mlctx.lineWidth=2;mlctx.beginPath();
+   for(let x=20;x<w-20;x+=4){let y=type==='Regresión'?h*.78-x/w*h*.55:h*.5+Math.sin(x/(25-complex))*25;if(x===20)mlctx.moveTo(x,y);else mlctx.lineTo(x,y)}mlctx.stroke();
+ }
+}
+$('#noise').oninput=drawML;$('#complex').oninput=drawML;$('#mlType').onchange=drawML;
+$('#runML').onclick=()=>{$('#mlResult').textContent='Modelo ejecutado: '+$('#mlType').value+' | precisión simulada '+(88+Math.random()*10).toFixed(2)+'%';drawML()}; drawML();
+
+/* Red neuronal */
+const net=$('#network'), nctx=net.getContext('2d');
+let signal=false;
+function drawNetwork(){
+ const [w,h]=fitCanvas(net),layers=+$('#layers').value,neurons=+$('#neurons').value;
+ nctx.clearRect(0,0,w,h);
+ const counts=[3,...Array(layers).fill(neurons),2], xs=counts.map((_,i)=>55+i*(w-110)/(counts.length-1));
+ let nodes=[];
+ counts.forEach((count,li)=>{nodes[li]=[];for(let n=0;n<count;n++)nodes[li].push({x:xs[li],y:h/2+(n-(count-1)/2)*Math.min(42,(h-80)/(count+1))})});
+ for(let l=0;l<nodes.length-1;l++)nodes[l].forEach(a=>nodes[l+1].forEach(b=>{nctx.strokeStyle=signal?'rgba(57,255,136,.28)':'rgba(0,229,255,.12)';nctx.lineWidth=1;nctx.beginPath();nctx.moveTo(a.x,a.y);nctx.lineTo(b.x,b.y);nctx.stroke()}));
+ nodes.forEach((layer,li)=>layer.forEach((p,ni)=>{let active=signal&&((Date.now()/450+li+ni)%3<1);nctx.fillStyle=active?'#39ff88':'#00e5ff';nctx.shadowBlur=active?18:8;nctx.shadowColor=nctx.fillStyle;nctx.beginPath();nctx.arc(p.x,p.y,7,0,Math.PI*2);nctx.fill();nctx.shadowBlur=0}));
+ nctx.fillStyle='#8b9bb0';nctx.font='12px monospace';nctx.fillText('INPUT',35,25);nctx.fillText('OUTPUT',w-65,25);
+ if(signal)requestAnimationFrame(drawNetwork);
+}
+$('#layers').oninput=()=>{$('#layersVal').textContent=$('#layers').value;drawNetwork()};
+$('#neurons').oninput=()=>{$('#neuronsVal').textContent=$('#neurons').value;drawNetwork()};
+$('#activateNet').onclick=()=>{signal=!signal;$('#netResult').textContent=signal?'Señal propagándose por la red...':'Red en reposo.';drawNetwork()};drawNetwork();
+
+/* Playground */
+function drawPlay(kind){
+ const c=$('#playCanvas'),ctx=c.getContext('2d'),[w,h]=fitCanvas(c);ctx.clearRect(0,0,w,h);
+ if(kind==='classification'){
+   for(let i=0;i<100;i++){let cl=i%2,x=Math.random()*w*.75+(cl?w*.2:0),y=cl?h*.28+Math.random()*h*.35:h*.52+Math.random()*h*.35;ctx.fillStyle=cl?'#39ff88':'#00e5ff';ctx.beginPath();ctx.arc(x,y,3,0,7);ctx.fill()}
+   ctx.strokeStyle='#a66cff';ctx.beginPath();ctx.moveTo(0,h*.58);ctx.lineTo(w,h*.34);ctx.stroke();
+   $('#playResult').textContent='Clasificación simulada: frontera de decisión generada.';
+ }else if(kind==='prediction'){
+   let vals=Array.from({length:32},(_,i)=>h*.65-Math.sin(i*.35)*45-i*2+(Math.random()-.5)*18);
+   ctx.strokeStyle='#00e5ff';ctx.lineWidth=2;ctx.beginPath();vals.forEach((y,i)=>{let x=i*(w-30)/31+15;i?ctx.lineTo(x,y):ctx.moveTo(x,y)});ctx.stroke();
+   ctx.setLineDash([6,5]);ctx.strokeStyle='#39ff88';ctx.beginPath();ctx.moveTo(w*.7,vals[22]);ctx.lineTo(w,vals[31]-28);ctx.stroke();ctx.setLineDash([]);
+   $('#playResult').textContent='Predicción simulada: tendencia estimada a partir de la serie.';
+ }else{
+   const cs=[[w*.25,h*.38],[w*.55,h*.62],[w*.78,h*.32]];
+   for(let i=0;i<120;i++){let k=i%3,cx=cs[k][0],cy=cs[k][1],x=cx+(Math.random()-.5)*110,y=cy+(Math.random()-.5)*90;ctx.fillStyle=['#00e5ff','#39ff88','#a66cff'][k];ctx.beginPath();ctx.arc(x,y,3,0,7);ctx.fill()}
+   $('#playResult').textContent='Clustering simulado: 3 grupos identificados.';
+ }
+}
+function playground(kind){drawPlay(kind)} drawPlay('classification');
+
+/* Dashboard charts */
+function chartLine(){
+ const c=$('#lineChart'),ctx=c.getContext('2d'),[w,h]=fitCanvas(c);ctx.clearRect(0,0,w,h);
+ const vals=Array.from({length:20},()=>55+Math.random()*35);ctx.strokeStyle='rgba(0,229,255,.08)';
+ for(let y=30;y<h;y+=45){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(w,y);ctx.stroke()}
+ ctx.strokeStyle='#00e5ff';ctx.lineWidth=2;ctx.beginPath();vals.forEach((v,i)=>{let x=i*(w-20)/(vals.length-1)+10,y=h-v/100*h*.72-15;i?ctx.lineTo(x,y):ctx.moveTo(x,y)});ctx.stroke();
+}
+function chartBar(){
+ const c=$('#barChart'),ctx=c.getContext('2d'),[w,h]=fitCanvas(c);ctx.clearRect(0,0,w,h);
+ const vals=[72,54,88,42,65,79,51];const bw=w/10;
+ vals.forEach((v,i)=>{let bh=v/100*(h-40);ctx.fillStyle=i%2?'#39ff88':'#00e5ff';ctx.fillRect(18+i*bw,h-bh-18,bw*.58,bh);});
+}
+chartLine();chartBar();setInterval(()=>{chartLine();chartBar();$('#k3').textContent=(9000+Math.floor(Math.random()*900)).toLocaleString();$('#k4').textContent=(93+Math.random()*2.5).toFixed(1)+'%'},2200);
+
+/* Seguridad */
+setInterval(()=>{$('#secAnalysis').textContent=['Patrones normales','Anomalía leve','Tráfico revisado','Modelo actualizado'][Math.floor(Math.random()*4)];$('#secAlert').textContent=Math.floor(10+Math.random()*14)+' alertas'},1600);
+
+/* Terminal simulada */
+const commands={
+ help:'Comandos: help | ai.status | ml.models | data.analyze | neural.network | security.scan | system.info | clear',
+ 'ai.status':'AI CORE: ONLINE | inference engine: READY | latency: 18ms',
+ 'ml.models':'Model registry: 128 modelos simulados | 94 activos | 34 en evaluación',
+ 'data.analyze':'Dataset pipeline: CLEAN → EXPLORE → MODEL → VISUALIZE → DECIDE',
+ 'neural.network':'Neural engine: 3 input nodes → hidden layers → 2 output nodes',
+ 'security.scan':'Security AI: 1,284 eventos analizados | 17 alertas simuladas',
+ 'system.info':'AI NEXUS v1.0 | HTML5 + CSS3 + JavaScript + Canvas | LOCAL MODE'
+};
+$('#command').addEventListener('keydown',e=>{
+ if(e.key!=='Enter')return;const cmd=e.target.value.trim().toLowerCase();const out=$('#termOutput');
+ if(cmd==='clear'){out.innerHTML='';}
+ else{const line=document.createElement('div');line.className='term-line';line.textContent='guest@ai-nexus:~$ '+cmd;out.insertBefore(line,out.lastElementChild);const ans=document.createElement('div');ans.textContent=commands[cmd]||'Comando no reconocido. Escribe "help".';out.insertBefore(ans,out.lastElementChild)}
+ e.target.value='';out.scrollTop=out.scrollHeight;
+});
+</script>
+</body>
+</html>
